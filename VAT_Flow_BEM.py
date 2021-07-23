@@ -4,41 +4,7 @@ from VAT_Flow_Misc import bilinear_interp, airfoil_data
 
 
 
-
-#Fast O(n) linear interpolation using numba for single scalar values. 
-@njit(nopython=True)
-def fast_interp(xval,x,y):
-    
-    for i in range(1,len(x)-1):
-        if x[i] > xval:
-            break
-        i = i + 1
-    return y[i-1] * (x[i]-xval)/(x[i]-x[i-1]) + y[i] * (xval-x[i-1])/(x[i]-x[i-1])
- 
-#Fast interpolation using numba for cw and cl values for four different Reynolds-numbers   
-@njit(nopython=True)
-def clcw_interp(alpha_A,Re,xfoil_data1,xfoil_data2,xfoil_data3,xfoil_data4):
-    
-    cl_interp = np.zeros((4))
-    cl_interp[0] = fast_interp(alpha_A, xfoil_data1[:,0], xfoil_data1[:,1])   
-    cl_interp[1] = fast_interp(alpha_A, xfoil_data2[:,0], xfoil_data2[:,1])    
-    cl_interp[2] = fast_interp(alpha_A, xfoil_data3[:,0], xfoil_data3[:,1])  
-    cl_interp[3] = fast_interp(alpha_A, xfoil_data4[:,0], xfoil_data4[:,1])  
-    
-        
-    x = Re_Data
-    y = cl_interp 
-    
-    for i in range(1,len(x)-1):
-        if x[i] > Re:
-            break
-        i = i + 1
-
-    return y[i-1] * (x[i]-Re)/(x[i]-x[i-1]) + y[i] * (Re-x[i-1])/(x[i]-x[i-1])
-
-
 class VAT_BEM:
-
     def __init__(self, v0, u_vawt, rho, nu, mesh, airfoil, config):
 
         # mesh and airfoil data unpacked
@@ -93,8 +59,7 @@ class VAT_BEM:
         self.struts_where_y = np.array([np.where(
             self.y < -self.radius + self.center_pos[1])[0][-1], np.where(self.y > self.radius + self.center_pos[1])[0][0]])
 
-    # calculates to torque from the struts in a post processing step. It has
-    # no direct influence on the velocity field
+
     def get_parasitic_torque(self,pos_x,pos_y,phi,u,v,blade,struts_width):
         """ calculates to torque from the struts in a post processing step. It has
             no direct influence on the velocity field. The struts use the same 
@@ -158,13 +123,13 @@ class VAT_BEM:
         struts_torque = struts_torque * self.z_struts
         self.torque_struts[0, blade] = np.sum(struts_torque)
 
-    # returns the normalized weight matrix to distribute the calculated blade
-    # forces into the domain. W has the same shape as u and v.
+    
 
     @staticmethod
     @njit(nopython=True, parallel=False)
     def get_weights(pos_x, pos_y, index_x, index_y, mesh, phi, c, h):
-        """ create actuator surface weight matrix per blade
+        """ returns the normalized weight matrix to distribute the calculated blade
+            forces into the domain. W has the same shape as u and v.
 
         Args:
             pos_x, pos_y: absolute blade coordinates
@@ -325,11 +290,8 @@ class VAT_BEM:
             # for symmetric profiles only the flow curvature changes the zero lift angle a0
             a0 = -alpha_goude
             cla0 = airfoil_data(np.rad2deg(alpha_goude), Re, self.airfoil, return_cl=True)
-   
 
             slope_Clfa = airfoil_data(0, Re, self.airfoil, return_slope=True)
-            # if blade == 0:
-            #     print(slope_Clfa)
             Clfa = slope_Clfa * np.rad2deg(self.alpha_A[0, blade]) + cla0
 
             asep = 32 * np.sign(cl)  # 32° from Literature
