@@ -5,7 +5,7 @@
 # VAT-ASM
 Repository containing the python code used in the paper "Numerical Modelling of Vertical Axis Turbines using the Actuator Surface Model".
 
-This tool can be used for quick predesign of vertical axis turbines. It combines a 2D computational fluid dynamics (CFD) simulation with the classical blade element theory (BEM). Due to the fact that no blades have to be resolved directly, the computation time can be reduced considerably. The script allows the user to use his own tabulated aerodynamic coefficients and to configure the turbine parameters himself. For parallel computation, the Python functions are accelerated with the just-in-time compiler [Numba](https://github.com/numba/numba).
+This tool can be used for quick predesign of vertical axis turbines (VAT). It combines a 2D computational fluid dynamics (CFD) simulation with the classical blade element theory (BEM). Due to the fact that no blades have to be resolved directly, the computation time can be reduced considerably. The script allows the user to use his own tabulated aerodynamic coefficients and to configure the turbine parameters himself. For parallel computation, the Python functions are accelerated with the just-in-time compiler [Numba](https://github.com/numba/numba).
 
 
 ## Prerequisites
