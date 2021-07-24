@@ -25,9 +25,6 @@ Mainly only the standard packages are needed, which are already included in most
 
 The paper can be found [here](https://www.sciencedirect.com/science/article/abs/pii/S0889974621001018)
 
-* [@scottydocs](https://github.com/scottydocs) 📖
-* [@cainwatson](https://github.com/cainwatson) 🐛
-* [@calchuchesta](https://github.com/calchuchesta) 🐛
 
 You might want to consider using something like the [All Contributors](https://github.com/all-contributors/all-contributors) specification and its [emoji key](https://allcontributors.org/docs/en/emoji-key).
 
