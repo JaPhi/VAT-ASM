@@ -19,7 +19,7 @@ Mainly only the standard packages are needed, which are already included in most
 ## Usage
 
 * Modify the config .ini files as desired
-* Just run *VAWT_ASM_Main* as a script
+* Just run *VAT_ASM_Main* as a script
 
 
 ## Paper
