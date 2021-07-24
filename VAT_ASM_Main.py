@@ -5,9 +5,9 @@ from numba import njit, prange
 import configparser
 from scipy import interpolate
 import time
-from VAT_Flow_CFD import meshing, solve_pressure_poisson, apply_bc, solve_momentum
-from VAT_Flow_BEM import VAT_BEM
-from VAT_Flow_Misc import airfoil_data_parser, circular_mask, colorbar
+from VAT_ASM_CFD import meshing, solve_pressure_poisson, apply_bc, solve_momentum
+from VAT_ASM_BEM import VAT_BEM
+from VAT_ASM_Misc import airfoil_data_parser, circular_mask, colorbar
 
 
 # load config file with user settings
@@ -86,7 +86,7 @@ def VAT_Flow(Tmax, rho, nu, v0, VAWT, mesh):
 
     # prepare plot
     fig, (ax, ax2, ax3) = plt.subplots(nrows=1, ncols=3, figsize=(16, 5))
-    fig.canvas.manager.set_window_title('VAT Flow')
+    fig.canvas.manager.set_window_title('VAT-ASM')
     plt.rc('axes', axisbelow=True)
     fig.set_tight_layout(True)
     plt.show()

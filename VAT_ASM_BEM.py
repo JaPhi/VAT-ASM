@@ -1,6 +1,6 @@
 import numpy as np
 from numba import njit, prange
-from VAT_Flow_Misc import bilinear_interp, airfoil_data
+from VAT_ASM_Misc import bilinear_interp, airfoil_data
 
 
 
