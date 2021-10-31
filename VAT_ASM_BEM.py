@@ -267,11 +267,6 @@ class VAT_BEM:
                                    (np.sqrt(c2_x**2 + c2_y**2) * np.sqrt(u2_x**2 + u2_y**2))))
         alpha_u = alpha_u * alpha_sign
 
-        # Flow curvature correction Goude
-        alpha_goude = 0
-        if self.flow_curvature == True:
-            alpha_goude = (self.omega * self.chord) / (4 * self.omega * self.radius)
-
         self.alpha_A[0, blade] = alpha_u  # - pitch if present
 
         # Flow curvature correction Goude
