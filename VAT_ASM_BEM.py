@@ -280,7 +280,7 @@ class VAT_BEM:
                               Re, self.airfoil, return_cl=True)
             AR = self.height / self.chord
             e = cl / (np.pi * AR)
-            self.alpha_A[0, blade] = self.alpha_A[0, blade] - (e * alpha_sign)
+            self.alpha_A[0, blade] = self.alpha_A[0, blade] - e 
 
         cl, cd = airfoil_data(np.rad2deg(self.alpha_A[0, blade] + alpha_goude),
                               Re, self.airfoil, return_cl=True, return_cd=True)
