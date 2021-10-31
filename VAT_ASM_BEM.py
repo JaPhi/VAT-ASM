@@ -274,25 +274,27 @@ class VAT_BEM:
 
         self.alpha_A[0, blade] = alpha_u  # - pitch if present
 
+        # Flow curvature correction Goude
+        if self.flow_curvature == True:
+            alpha_goude = (self.omega * self.chord) / (4 * self.omega * self.radius)
+            self.alpha_A[0, blade] += alpha_goude
+
         # AR-Correction Prantl (1/2)
         if self.aspect_ratio == True:
-            cl = airfoil_data(np.rad2deg(self.alpha_A[0, blade] + alpha_goude),
+            cl = airfoil_data(np.rad2deg(self.alpha_A[0, blade]),
                               Re, self.airfoil, return_cl=True)
             AR = self.height / self.chord
             e = cl / (np.pi * AR)
-            self.alpha_A[0, blade] = self.alpha_A[0, blade] - e 
+            self.alpha_A[0, blade] -= e 
 
-        cl, cd = airfoil_data(np.rad2deg(self.alpha_A[0, blade] + alpha_goude),
+        cl, cd = airfoil_data(np.rad2deg(self.alpha_A[0, blade]),
                               Re, self.airfoil, return_cl=True, return_cd=True)
 
         # Dynamic Stall Oye
         if self.dynamic_stall == True:
-            # for symmetric profiles only the flow curvature changes the zero lift angle a0
-            a0 = -alpha_goude
-            cla0 = airfoil_data(np.rad2deg(alpha_goude), Re, self.airfoil, return_cl=True)
-
+            a0 = 0
             slope_Clfa = airfoil_data(0, Re, self.airfoil, return_slope=True)
-            Clfa = slope_Clfa * np.rad2deg(self.alpha_A[0, blade]) + cla0
+            Clfa = slope_Clfa * np.rad2deg(self.alpha_A[0, blade]) 
 
             asep = 32 * np.sign(cl)  # 32° from Literature
             Clasep = airfoil_data(asep, Re, self.airfoil, return_cl=True)
