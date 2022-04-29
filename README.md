@@ -1,4 +1,4 @@
-![VAWT850](/VAT_Flow_Example.png?raw=true "Example")
+![VAWT850](/p2_VAT.gif?raw=true "Example")
 
 # VAT-ASM
 Repository containing the python code used in the paper:
